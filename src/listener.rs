@@ -516,6 +516,7 @@ pub async fn forward(id: &String, mut addr: String) -> PyResult<()> {
             .map_err(|e| py_err(format!("Cannot parse address: {addr}, error: {e}")))?;
 
         info!("Listener {id:?} forwarding to {:?}", url.to_string());
+        info!("Looking for access to localhost:4040? Check out our new Traffic Inspector:\nhttps://dashboard.ngrok.com/observability/traffic-inspector");
         let res = tun.lock().await.fwd(url).await;
 
         debug!("forward returning");
