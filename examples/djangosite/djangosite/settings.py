@@ -34,18 +34,6 @@ ALLOWED_HOSTS.append("*")
 
 # Application definition
 
-INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    # """Added by ngrok"""
-    "ngrok_extra.django",  # ngrok must come before staticfiles as they both override runserver
-    # """End added by ngrok"""
-    "django.contrib.staticfiles",
-]
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -129,14 +117,25 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    # """Added by ngrok"""
+    "ngrok_extra.django",  # ngrok must come before staticfiles as they both override runserver
+    # """End added by ngrok"""
+    "django.contrib.staticfiles",
+]
+
 from ngrok_extra.policy import policy_builder
 
 NGROK_CONFIG = {
-    "domain": "",  # Warning: Only when a domain is specified here is hot reloading of this config is supported.
-    # "domain": "python.ngrok.app",  # Warning: Only when a domain is specified here is hot reloading of this config is supported.
+    # "domain": "",  # Warning: Only when a domain is specified here is hot reloading of this config is supported.
     "policies": policy_builder.PolicyBuilder()
     # .with_inbound_policy_rule(
-    #     policy_builder.PolicyRule(expressions=["req.URL.matches('python.ngrok.app/adminfoo/')"]).with_deny(
+    #     policy_builder.PolicyRule(expressions=["req.URL.matches('foo.ngrok.app/admin/')"]).with_deny(
     #         policy_builder.DenyConfig(status_code=403)
     #     )
     # )
