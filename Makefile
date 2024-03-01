@@ -113,7 +113,7 @@ run-uvicorn: develop examples-install
 
 
 run-sanic-asgi: develop examples-install
-	. $(BIN)/activate && ngrok-asgi uvicorn examples.sanic.sanic-ngrok:app $(args)
+	. $(BIN)/activate && ngrok-asgi uvicorn examples.sanic.sanic-ngrok:app $(args) --policy-file examples/sanic/block-shadow.json
 
 mypy: develop
 	. $(BIN)/activate && mypy ./examples/ngrok-forward-minimal.py

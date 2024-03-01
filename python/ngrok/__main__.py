@@ -61,6 +61,9 @@ def configure_listener(session, args):
         )
     if args.proxy_proto:
         builder.proxy_proto(args.proxy_proto)
+    if args.policy_file:
+        with open(args.policy_file) as policy_json:
+            builder.policy(policy_json.read())
     if args.remove_request_header:
         for header in args.remove_request_header:
             builder.remove_request_header(header)

@@ -83,6 +83,10 @@ def get_parser():
         help="The version of PROXY protocol to use with this listener “1”, “2”, or “” if not using.",
     )
     parser.add_argument(
+        "--policy-file",
+        help="Path to policy configuration JSON file, e.g. './path/to/policy.json'",
+    )
+    parser.add_argument(
         "--remove-request-header",
         action="append",
         help="Removes a header from requests to this edge. Call multiple times to add additional values.",
