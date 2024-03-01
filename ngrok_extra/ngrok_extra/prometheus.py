@@ -10,7 +10,7 @@ class BasicAuth(t.NamedTuple):
     password: str
 
 
-def start_http_server(port: int = 8000, authtoken: str = None, domain: str = None, basic_auth: BasicAuth = None) -> t.Tuple[ngrok.Listener, t.Callable[[], None]]:
+def start_http_server(port: int = 8000, authtoken: str = None, domain: str = None, basic_auth: BasicAuth = None, policy: str = None) -> t.Tuple[ngrok.Listener, t.Callable[[], None]]:
     """
     Starts the prometheus default HTTP exporter server AND an ngrok endpoint forwarding traffic to it, with optional static domain and basic auth protection.
     
@@ -19,6 +19,7 @@ def start_http_server(port: int = 8000, authtoken: str = None, domain: str = Non
     authtoken - optional. authtoken to use. Reads from NGROK_AUTHTOKEN environment variable if omitted. An auth token must be supplied by one of these methods.
     domain - optional but necessary for non-testing use. static domain to use. if not supplied, your external ngrok url will change each time you restart. 
     basic_auth - optional. adds basic auth protection if supplied, this is supported out-of-the-box by prometheus scrape configs.
+    policy - optional. policy+action configuration json. See ngrok.policy for builder API.
 
     Returns: a function that can be used to gracefully shut down the ngrok listener and the prometheus HTTP server.
     """
@@ -40,6 +41,9 @@ def start_http_server(port: int = 8000, authtoken: str = None, domain: str = Non
         random_pw = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         logging.warning(f"Since basic_auth= was omitted, starting with a random password. This will change each time you restart. The username is \"root\", the password is: {random_pw}")
         kwargs["basic_auth"] = f"root:{random_pw}"
+
+    if policy:
+        kwargs["policy"] = policy
 
     
     listener = ngrok.forward(port, **kwargs)
