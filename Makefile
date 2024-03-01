@@ -111,6 +111,10 @@ run-tls: develop
 run-uvicorn: develop examples-install
 	. $(BIN)/activate && python ./examples/uvicorn-ngrok.py
 
+
+run-sanic-asgi: develop examples-install
+	. $(BIN)/activate && ngrok-asgi uvicorn examples.sanic.sanic-ngrok:app $(args)
+
 mypy: develop
 	. $(BIN)/activate && mypy ./examples/ngrok-forward-minimal.py
 	. $(BIN)/activate && mypy ./examples/ngrok-forward-full.py
