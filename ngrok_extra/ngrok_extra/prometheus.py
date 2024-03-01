@@ -21,7 +21,9 @@ def start_http_server(port: int = 8000, authtoken: str = None, domain: str = Non
     basic_auth - optional. adds basic auth protection if supplied, this is supported out-of-the-box by prometheus scrape configs.
     policy - optional. policy+action configuration json. See ngrok.policy for builder API.
 
-    Returns: a function that can be used to gracefully shut down the ngrok listener and the prometheus HTTP server.
+    Returns: 
+      listener - an ngrok.Listener for the created listener
+      shutdown() - a function that can be used to gracefully shut down the ngrok listener and the prometheus HTTP server.
     """
     kwargs = dict()
     if authtoken:
